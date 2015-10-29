@@ -21,4 +21,4 @@ for i in range(30):
         if j == l-1:
             new_s += str(count)+prev_num
             s = new_s
-print len(s)
+print(len(s))
