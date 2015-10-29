@@ -1,22 +1,12 @@
 __author__ = 'bijan'
-import Image
-from urllib2 import urlopen,HTTPPasswordMgrWithDefaultRealm,HTTPBasicAuthHandler,build_opener,install_opener
-from StringIO import StringIO
+from PIL import Image
+from io import BytesIO
+from authentication import Authentication
 
 IMAGE_URL = 'http://www.pythonchallenge.com/pc/return/cave.jpg'
 
-
-def _auth(url):
-    ps_mgr = HTTPPasswordMgrWithDefaultRealm()
-    ps_mgr.add_password(None, url, 'huge', 'file')
-    handler = HTTPBasicAuthHandler(ps_mgr)
-    opener = build_opener(handler)
-    install_opener(opener)
-    response = urlopen(url).read()
-    return response
-
-
-image = StringIO(_auth(IMAGE_URL))
+auth = Authentication(IMAGE_URL)
+image = BytesIO(auth.access())
 image = Image.open(image)
 pix = image.load()
 new_image = Image.new(image.mode,image.size)
